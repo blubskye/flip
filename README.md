@@ -4,14 +4,16 @@
 
 ### *Freenet IRC-Like Protocol*
 
-*Anonymous, censorship-resistant IRC-style chat — routed entirely through Freenet.*
+*Anonymous, censorship-resistant IRC-style chat — routed entirely through Hyphanet.*
 
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0)
 [![C++14](https://img.shields.io/badge/C++-14-00599C.svg)](https://en.cppreference.com/w/cpp/14)
 [![CMake](https://img.shields.io/badge/Build-CMake-064F8C.svg)](https://cmake.org/)
-[![Freenet](https://img.shields.io/badge/Network-Freenet%20FCPv2-3a7bcc.svg)](https://freenetproject.org/)
+[![Hyphanet](https://img.shields.io/badge/Network-Hyphanet%20FCPv2-3a7bcc.svg)](https://hyphanet.org/)
 
-*A daemon that bridges your IRC client to the Freenet darknet. No servers. No logs. No censorship.*
+*A daemon that bridges your IRC client to the Hyphanet darknet. No servers. No logs. No censorship.*
+
+> **Note:** The network formerly known as Freenet has been renamed to **Hyphanet**. FLIP retains its original name (the acronym predates the rename) but targets Hyphanet nodes.
 
 ---
 
@@ -19,7 +21,7 @@
 
 ## About
 
-FLIP sits between your IRC client and Freenet. It speaks standard IRC to your client and FCPv2 to Freenet. Messages are stored as SSK-signed inserts — nobody controls the channel, nobody can delete the history, and nobody can trace who said what.
+FLIP sits between your IRC client and Hyphanet. It speaks standard IRC to your client and FCPv2 to Hyphanet. Messages are stored as SSK-signed inserts — nobody controls the channel, nobody can delete the history, and nobody can trace who said what.
 
 Each user generates an RSA identity. Private messages are RSA-encrypted end-to-end. Channel messages are signed but readable by anyone who polls the SSK (channel-level encryption is planned — see `TODO.md`).
 
@@ -36,13 +38,13 @@ This is a **patched fork** of the original FLIP 0.3.1 source by SomeDude. Patche
 ## Architecture
 
 ```
-Your IRC client  ──IRC──►  FLIP daemon  ──FCPv2──►  Freenet node
+Your IRC client  ──IRC──►  FLIP daemon  ──FCPv2──►  Hyphanet node
                                 │
                            SQLite3 DB
                         (identities, messages)
 ```
 
-FLIP runs as a local daemon. Point your IRC client at `localhost:6667` (default). FLIP maintains its own identity store, fetches/inserts messages from Freenet, and presents them as IRC traffic.
+FLIP runs as a local daemon. Point your IRC client at `localhost:6667` (default). FLIP maintains its own identity store, fetches/inserts messages from Hyphanet, and presents them as IRC traffic.
 
 ---
 
@@ -53,7 +55,7 @@ FLIP runs as a local daemon. Point your IRC client at `localhost:6667` (default)
 <td width="50%">
 
 ### Messaging
-- IRC channel chat over Freenet SSKs
+- IRC channel chat over Hyphanet SSKs
 - End-to-end encrypted private messages (RSA)
 - Legacy channel support (`/legacy #channel`) with PKCS#1 v1.5
 - Message edition polling for updates
@@ -75,9 +77,9 @@ FLIP runs as a local daemon. Point your IRC client at `localhost:6667` (default)
 <td width="50%">
 
 ### Connectivity
-- Standard FCPv2 to any Freenet node
+- Standard FCPv2 to any Hyphanet node
 - Optional TLS-over-FCP (`-DFCPSSL=ON`)
-- Works with local or remote Freenet node
+- Works with local or remote Hyphanet node
 - Threaded connection handling (pthreads)
 - FreeBSD, Linux, Windows, Solaris support
 
@@ -85,9 +87,9 @@ FLIP runs as a local daemon. Point your IRC client at `localhost:6667` (default)
 <td width="50%">
 
 ### Optional Java Plugin
-- `plugin/` directory contains a Freenet Java plugin variant
+- `plugin/` directory contains a Hyphanet Java plugin variant
 - Built separately with `-DBUILD_PLUGIN=ON`
-- Embeds FLIP functionality inside the Freenet node itself
+- Embeds FLIP functionality inside the Hyphanet node itself
 
 </td>
 </tr>
@@ -153,23 +155,23 @@ make -j$(nproc)
 
 ## Usage
 
-1. Start your Freenet node and note its FCP port (default: `9481`).
+1. Start your Hyphanet node and note its FCP port (default: `9481`).
 2. Run FLIP:
    ```bash
    ./flip
    ```
-   On first run, FLIP generates a config file (`flip.ini` or similar) and an RSA identity.
+   On first run, FLIP generates a config file and an RSA identity.
 3. Connect your IRC client to `localhost:6667`.
-4. Join a Freenet channel:
+4. Join a Hyphanet channel:
    ```
    /join #yourchannel
    ```
-   FLIP will begin inserting/fetching via Freenet SSKs. New messages may take several minutes to appear depending on Freenet network latency.
+   FLIP will begin inserting/fetching via Hyphanet SSKs. New messages may take several minutes to appear depending on Hyphanet network latency.
 
 ### Private messages
 
 ```
-/msg SomeFreenetUser hello
+/msg SomeHyphanetUser hello
 ```
 
 Private messages are RSA-encrypted with the recipient's public key before insert.
@@ -192,8 +194,8 @@ Key settings (set in the config or at first-run prompt):
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| FCP host | `127.0.0.1` | Freenet node FCP address |
-| FCP port | `9481` | Freenet node FCP port |
+| FCP host | `127.0.0.1` | Hyphanet node FCP address |
+| FCP port | `9481` | Hyphanet node FCP port |
 | IRC port | `6667` | Local IRC listen port |
 | SSL FCP | enabled | TLS for FCP connection (requires `FCPSSL=ON` build) |
 
