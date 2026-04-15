@@ -1561,6 +1561,7 @@ void IRCServer::ProcessFLIPEvent(const int identityid, const FLIPEvent &flipeven
 
 			SQLite3DB::Statement st=m_db->Prepare("UPDATE tblIdentity SET Name=? WHERE IdentityID=?;");
 			st.Bind(0,params["name"]);
+			st.Bind(1,identityid);
 			st.Step();
 
 			FindAndResolveNickCollision(identityid,params["name"],true);
@@ -2290,7 +2291,7 @@ const bool IRCServer::ValidateIdentity(const int identityid)
 const bool IRCServer::InvalidateIdentity(const int identityid)
 {
 	SQLite3DB::Statement st=m_db->Prepare("UPDATE tblIdentity SET Validated=0 WHERE IdentityID=?;");
-	st.Bind(1,identityid);
+	st.Bind(0,identityid);
 	st.Step();
 
 	if(m_ids.find(identityid)!=m_ids.end())
