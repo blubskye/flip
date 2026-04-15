@@ -1,0 +1,11 @@
+# Build outputs
+build/
+build-sanitize/
+
+# Runtime files
+*.log
+*.db3
+
+# Local audit/patch docs — not for upstream
+docs/security/
+AUDIT*.md
